@@ -30,4 +30,7 @@ jila-backend: #"service" refers to this named group of things going on.
 
 
 # then just run this command:
-#   docker-compose run --service-ports jila-backend bundle exec rails s -b '0.0.0.0' 
+#   docker-compose run --service-ports jila-backend bundle exec rails s -b '0.0.0.0'
+
+# or this one
+#   docker run -i -t -p 3000:3000 -v ~/src/jila-backend/:/jila-backend/ jila-backend_testing:v1 bundle exec rails s
