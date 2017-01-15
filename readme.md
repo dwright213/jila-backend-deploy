@@ -8,4 +8,3 @@ are, expect to have to go in and run `bundle install --deployment` before actual
 being able to run this thing locally (using docker).
 
 
-<3 <3  

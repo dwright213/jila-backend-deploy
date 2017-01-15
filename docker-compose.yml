@@ -1,36 +1,17 @@
-# rough docker-compose file
-jila-backend: #"service" refers to this named group of things going on.
-  build: ruby
-
-  # links:
-  #   - postgres
-  #   - etc
-
-  volumes:
-    - ~/src/jila-backend/:/jila-backend/
-
-  ports:
-    - "3000"
-    - "3000:3000"
-
-  expose:
-    - "3000"
-
-  read_only: true
-
-  stdin_open: true
-
-  tty: true
-
-  environment:
-    ENVIRONMENT_VARIABLE: an_env_variable
-
-  command:
-      - bash -c "cd /jila-backend/ && bundle install --deployment && bundle exec rake db:migrate RAILS_ENV=development"
-
-
-# then just run this command:
-#   docker-compose run --service-ports jila-backend bundle exec rails s -b '0.0.0.0'
-
-# or this one
-#   docker run -i -t -p 3000:3000 -v ~/src/jila-backend/:/jila-backend/ jila-backend_testing:v1 bundle exec rails s
+version: '2'
+services:
+    jila-backend:
+        build: ruby
+        restart: unless-stopped
+        volumes:
+        # code
+        - ~/src/jila-backend/:/opt/jila/
+        ports:
+        - 3000:3000
+        command: bundle exec unicorn -p 3000 -c ./config/unicorn.rb
+        links:
+        - postgres
+    postgres:
+        image: postgres:9.6.1
+        ports:
+          - "5432"
